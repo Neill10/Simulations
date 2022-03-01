@@ -1,8 +1,3 @@
-//
-// Source code recreated from a .class file by IntelliJ IDEA
-// (powered by FernFlower decompiler)
-//
-
 public class Address {
     private String streetNum;
     private String street;
@@ -12,154 +7,188 @@ public class Address {
     private String zipcode;
     private boolean isApartmentNum;
 
-    public Address(String streetNum, String street, String apartmentNum, String city, String state, String zipcode) {
+    public Address(String streetNum,String street,String apartmentNum,String city, String state, String zipcode)
+    {
         this.streetNum = streetNum;
         this.street = street;
         this.apartmentNum = apartmentNum;
         this.city = city;
         this.state = state;
-        if (zipcode.length() != 5) {
+        if(zipcode.length() != 5)
+        {
             System.out.println("Not a valid zipcode!(length of zipcode is not 5) Zipcode will be equal to null.");
             this.zipcode = null;
-        } else {
+        }
+        else {
             this.zipcode = zipcode;
         }
-
-        this.isApartmentNum = true;
+        isApartmentNum = true;
     }
-
-    public Address(String streetNum, String street, String city, String state, String zipcode) {
+    public Address(String streetNum,String street,String city, String state, String zipcode)
+    {
         this.streetNum = streetNum;
         this.street = street;
         this.city = city;
         this.state = state;
         this.zipcode = zipcode;
-        this.isApartmentNum = false;
+        isApartmentNum = false;
     }
 
-    public Address(Address address) {
-        this.streetNum = address.getStreetNum();
-        this.street = address.getStreet();
-        this.city = address.getCity();
-        this.state = address.getState();
-        this.zipcode = address.getZipcode();
-        if (address.isApartmentNumber()) {
-            this.apartmentNum = address.getApartmentNum();
-            this.isApartmentNum = true;
-        } else {
-            this.isApartmentNum = false;
+    public Address(Address address)
+    {
+        streetNum = address.getStreetNum();
+        street = address.getStreet();
+        city = address.getCity();
+        state = address.getState();
+        zipcode = address.getZipcode();
+        if(address.isApartmentNumber())
+        {
+            apartmentNum = address.getApartmentNum();
+            isApartmentNum = true;
         }
-
+        else
+        {
+            isApartmentNum = false;
+        }
     }
 
-    public Address(String address) {
-        if (address.indexOf("Apt") != -1) {
-            this.isApartmentNum = true;
-        } else {
-            this.isApartmentNum = false;
+    //Number Street Apt Number (optional), City, State Zip
+    //
+    //1313 Mockingbird Lane Apt 6A, Springfield, MO 65123
+    //
+    //1313 Mockingbird Lane, Springfield, MO 65123
+    public Address(String address)
+    {
+        if(address.indexOf("Apt") != -1)
+        {
+            isApartmentNum = true;
+        }
+        else
+        {
+            isApartmentNum = false;
         }
 
+        //finds the index of street number
         int i = address.indexOf(" ");
-        this.streetNum = address.substring(0, i);
-        address = address.substring(i + 1);
-        int c;
-        int s;
-        if (this.isApartmentNum) {
-            c = address.indexOf("Apt");
-            this.street = address.substring(0, c - 1);
-            address = address.substring(c + 4);
-            s = address.indexOf(",");
-            this.apartmentNum = address.substring(0, s);
-            address = address.substring(s + 2);
-        } else {
-            c = address.indexOf(",");
-            this.street = address.substring(0, c);
-            address = address.substring(c + 2);
-        }
+        streetNum = address.substring(0,i);
+        address = address.substring(i+1);
 
-        c = address.indexOf(",");
-        this.city = address.substring(0, c);
-        address = address.substring(c + 2);
-        s = address.indexOf(" ");
-        this.state = address.substring(0, s);
+        if(isApartmentNum)
+        {
+            int apt = address.indexOf("Apt");
+            street = address.substring(0,apt-1);//cause of space before Apt
+            address = address.substring(apt + 4);
+            int comma = address.indexOf(",");
+            apartmentNum = address.substring(0,comma);
+            address = address.substring(comma + 2);
+        }
+        else
+        {
+            int a =  address.indexOf(",");
+            street = address.substring(0,a);
+            address = address.substring(a+2);
+        }
+        //1313 Mockingbird Lane Apt 6A, Springfield, MO 65123
+        //
+        //1313 Mockingbird Lane, Springfield, MO 65123
+        int c = address.indexOf(",");//city
+        city = address.substring(0,c);
+        address = address.substring(c+2);
+        int s = address.indexOf(" ");//state;
+        state = address.substring(0,s);
         address = address.substring(s + 1);
-        this.zipcode = address;
+        zipcode = address;
     }
 
-    public boolean compare(Address address) {
+    public boolean compare(Address address)
+    {
         boolean same = true;
-        if (!this.getStreet().equals(address.getStreet())) {
+        if (!(getStreet().equals(address.getStreet())))
+        {
             same = false;
         }
-
-        if (!this.getStreetNum().equals(address.getStreetNum())) {
+        if (!(getStreetNum().equals(address.getStreetNum())))
+        {
             same = false;
         }
-
-        if (!this.getCity().equals(address.getCity())) {
+        if (!(getCity().equals(address.getCity())))
+        {
             same = false;
         }
-
-        if (!this.getZipcode().equals(address.getZipcode())) {
+        if (!(getZipcode().equals(address.getZipcode())))
+        {
             same = false;
         }
-
-        if (!this.getState().equals(address.getState())) {
+        if (!(getState().equals(address.getState())))
+        {
             same = false;
         }
-
-        if (this.isApartmentNumber() != address.isApartmentNumber()) {
+        if(isApartmentNumber() != address.isApartmentNumber())
+        {
             return false;
-        } else {
-            if (this.isApartmentNumber() && !this.getApartmentNum().equals(address.getApartmentNum())) {
-                same = false;
-            }
-
-            return same;
         }
+        else {
+            if(isApartmentNumber()) {
+                if (!(getApartmentNum().equals(address.getApartmentNum()))) {
+                    same = false;
+                }
+            }
+        }
+        return same;
+    }
+    public boolean isApartmentNumber()
+    {
+        return isApartmentNum;
+    }
+    public String getStreetNum()
+    {
+        return streetNum;
     }
 
-    public boolean isApartmentNumber() {
-        return this.isApartmentNum;
+    public String getStreet()
+    {
+        return street;
     }
 
-    public String getStreetNum() {
-        return this.streetNum;
-    }
-
-    public String getStreet() {
-        return this.street;
-    }
-
-    public String getApartmentNum() {
-        if (this.isApartmentNum) {
-            return this.apartmentNum;
-        } else {
+    public String getApartmentNum()
+    {
+        if(isApartmentNum) {
+            return apartmentNum;
+        }
+        else
+        {
             System.out.println("There is no apartment number!");
             return null;
         }
     }
 
-    public String getCity() {
-        return this.city;
+    public String getCity()
+    {
+        return city;
     }
 
-    public String getState() {
-        return this.state;
+    public String getState()
+    {
+        return state;
     }
 
-    public String getZipcode() {
-        return this.zipcode;
+    public String getZipcode()
+    {
+        return zipcode;
     }
 
-    public String toString() {
+    public String toString()
+    {
         String str;
-        if (this.isApartmentNum) {
-            str = this.streetNum + " " + this.street + " Apt " + this.apartmentNum + ", " + this.city + ", " + this.state + " " + this.zipcode;
-        } else {
-            str = this.streetNum + " " + this.street + ", " + this.city + ", " + this.state + " " + this.zipcode;
+        if(isApartmentNum) {
+            str = streetNum + " " + street + " Apt " + apartmentNum + ", " + city + ", " + state + " " + zipcode;
         }
-
+        else
+        {
+            str = streetNum + " " + street + ", " + city + ", " + state + " " + zipcode;
+        }
         return str;
     }
+
 }
+
